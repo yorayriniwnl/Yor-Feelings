@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String?
+  anonymousHandle  String?   @unique
+  bio              String?
+  role             String    @default("student")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  threads          Thread[]  @relation("ThreadAuthor")
+  messages         Message[] @relation("MessageAuthor")
+  reports          Report[]
+  reactions        Reaction[]
+  moods            UserMood[]
+}
+
+model Thread {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  isPinned    Boolean   @default(false)
+  isArchived  Boolean   @default(false)
+  authorId    String?
+  author      User?     @relation("ThreadAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  messages    Message[]
+}
+
+model Message {
+  id           String     @id @default(cuid())
+  threadId     String
+  authorId     String?
+  content      String
+  moderation   String     @default("pending")
+  sentiment    String     @default("neutral")
+  emotionScore Float      @default(0.5)
+  isAnonymous  Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  thread       Thread     @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  author       User?      @relation("MessageAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  reactions    Reaction[]
+  reports      Report[]
+}
+
+model Report {
+  id         String   @id @default(cuid())
+  messageId  String
+  reporterId String?
+  reason     String
+  status     String   @default("open")
+  createdAt  DateTime @default(now())
+  message    Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  reporter   User?    @relation(fields: [reporterId], references: [id], onDelete: SetNull)
+}
+
+model Reaction {
+  id         String   @id @default(cuid())
+  messageId  String
+  userId     String?
+  type       String
+  createdAt  DateTime @default(now())
+  message    Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model UserMood {
+  id          String   @id @default(cuid())
+  userId      String?
+  mood        String
+  score       Float    @default(0.5)
+  source      String   @default("message")
+  createdAt   DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
