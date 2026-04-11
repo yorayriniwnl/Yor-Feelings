@@ -13,3 +13,6 @@ prisma/dev.db
 prisma/dev.db-journal
 
 *.zip
+.vercel
+.env*.local
+tmp_home.html
