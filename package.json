@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
+    "design:check": "node scripts/check-design.mjs",
     "vercel-build": "prisma generate && next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
@@ -43,6 +44,8 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35",
     "postcss": "^8.4.47",
     "prisma": "^5.19.1",
     "puppeteer": "^24.40.0",

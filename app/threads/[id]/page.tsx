@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { Card } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
@@ -17,16 +17,16 @@ export default function ThreadPage() {
   const [content, setContent] = useState("")
   const { socket, emitTyping } = useThreadSocket(threadId)
 
-  const load = async () => {
+  const load = useCallback(async () => {
     const res = await fetch(`/api/messages?threadId=${threadId}`)
     const data = await res.json()
     setMessages(data.messages || [])
     const t = await fetch("/api/threads")
     const td = await t.json()
     setThread((td.threads || []).find((x: any) => x.id === threadId) || null)
-  }
+  }, [threadId])
 
-  useEffect(() => { if (threadId) load() }, [threadId])
+  useEffect(() => { if (threadId) load() }, [threadId, load])
 
   useEffect(() => {
     if (!socket) return

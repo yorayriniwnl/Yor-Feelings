@@ -3,35 +3,137 @@
 @tailwind utilities;
 
 :root {
-  --background: 10 13 24;
-  --foreground: 244 247 255;
-  --card: 15 23 42;
-  --muted: 148 163 184;
-  --primary: 99 102 241;
-  --accent: 34 211 238;
-  --border: 255 255 255;
+  --background: 0 0 0;
+  --foreground: 245 234 234;
+  --card: 5 5 5;
+  --muted: 196 196 196;
+  --primary: 232 75 75;
+  --accent: 255 138 127;
+  --border: 245 234 234;
+  --yor-void: #000000;
+  --yor-graphite: #050505;
+  --yor-crimson: #e84b4b;
+  --yor-deep-crimson: #671515;
+  --yor-signal: #ff8a7f;
+  --yor-warm-white: #f5eaea;
+  --yor-muted: #c4c4c4;
+  --yor-field: linear-gradient(135deg, #671515, #8c1616, #2a0505);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   min-height: 100vh;
   color: rgb(var(--foreground));
-  background:
-    radial-gradient(circle at top left, rgba(99,102,241,0.18), transparent 26%),
-    radial-gradient(circle at top right, rgba(34,211,238,0.12), transparent 28%),
-    radial-gradient(circle at bottom center, rgba(236,72,153,0.12), transparent 24%),
-    rgb(var(--background));
+  background-color: var(--yor-void);
+  background-image:
+    linear-gradient(rgba(232, 75, 75, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 75, 75, .055) 1px, transparent 1px),
+    radial-gradient(circle at 84% 0%, rgba(103, 21, 21, .36), transparent 32rem);
+  background-size: 32px 32px, 32px 32px, 100% 100%;
 }
 
-* {
-  box-sizing: border-box;
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
 }
+
+* { box-sizing: border-box; }
 
 ::selection {
-  background: rgba(99,102,241,0.45);
-  color: white;
+  background: rgba(232, 75, 75, .45);
+  color: var(--yor-warm-white);
+}
+
+a { text-underline-offset: 3px; }
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--yor-signal);
+  outline-offset: 3px;
+}
+
+.yor-shell { background: rgba(0, 0, 0, .78); }
+
+.yor-header {
+  border-color: rgba(245, 234, 234, .14);
+  background: rgba(0, 0, 0, .82);
+  backdrop-filter: blur(18px);
+}
+
+.yor-card {
+  border: 1px solid rgba(245, 234, 234, .16);
+  border-radius: 0;
+  background: linear-gradient(145deg, rgba(5, 5, 5, .92), rgba(26, 5, 5, .74));
+  box-shadow: 0 24px 70px rgba(103, 21, 21, .12);
+}
+
+.yor-label {
+  color: var(--yor-signal);
+  font: 600 11px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.yor-button {
+  border: 1px solid var(--yor-crimson);
+  border-radius: 0;
+  transition: background-color .2s, color .2s, transform .2s;
+}
+
+.yor-button:hover { background: var(--yor-signal); color: #000; }
+.yor-button:active { transform: translateY(1px); }
+
+.yor-home {
+  position: relative;
+  min-height: calc(100vh - 73px);
+  overflow: hidden;
+  padding: clamp(2rem, 7vw, 7rem) clamp(1.25rem, 6vw, 6rem);
+}
+
+.yor-home-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+  gap: clamp(2rem, 7vw, 7rem);
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.yor-home h1 {
+  max-width: 760px;
+  margin: 1rem 0 1.4rem;
+  color: var(--yor-warm-white);
+  font: 500 clamp(3.2rem, 8vw, 7.6rem)/.92 Georgia, serif;
+  letter-spacing: -.055em;
+}
+
+.yor-home h1 span { color: var(--yor-signal); }
+
+.yor-lede {
+  max-width: 620px;
+  color: var(--yor-muted);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.75;
+}
+
+.yor-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+
+.yor-home-panel { align-self: end; }
+.yor-home-panel ul { display: grid; gap: .8rem; margin: 1.2rem 0 0; padding: 0; list-style: none; color: var(--yor-muted); }
+.yor-home-panel li { border-left: 2px solid var(--yor-deep-crimson); padding: .65rem .8rem; }
+
+@media (max-width: 800px) {
+  .yor-home-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .yor-home-panel { max-width: 560px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; animation-duration: .001ms !important; }
 }
