@@ -7,6 +7,8 @@ on:
     paths:
       - ".github/workflows/refresh-lock.yml"
       - "package.json"
+      - "app/api/messages/[id]/react/route.ts"
+      - "app/api/messages/[id]/report/route.ts"
 
 permissions:
   contents: write
