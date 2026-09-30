@@ -1,0 +1,59 @@
+name: Refresh dependency lock
+
+on:
+  push:
+    branches:
+      - ci/verification-20261001
+    paths:
+      - ".github/workflows/refresh-lock.yml"
+      - "package.json"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DATABASE_URL: file:./ci.db
+      NEXTAUTH_SECRET: candidate-ci-secret-not-for-production
+      NEXTAUTH_URL: http://127.0.0.1:3000
+      KIIT_DOMAIN: example.test
+      NEXT_PUBLIC_SOCKET_URL: http://127.0.0.1:3000
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ci/verification-20261001
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Regenerate lockfile
+        run: |
+          npm install --package-lock-only
+          npm audit fix --package-lock-only
+      - name: Install validated tree
+        run: npm ci
+      - name: Production dependency audit
+        run: npm audit --omit=dev --audit-level=high
+      - name: Generate Prisma client
+        run: npm run prisma:generate
+      - name: Design contract
+        run: npm run design:check
+      - name: Lint
+        run: npm run lint
+      - name: Production build
+        run: npm run build
+      - name: Commit validated dependency update
+        shell: bash
+        run: |
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "No dependency update required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "deps: refresh validated Next 16 dependency tree"
+          git push origin HEAD:ci/verification-20261001
