@@ -29,10 +29,10 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-      - name: Regenerate lockfile
+      - name: Regenerate lockfile from the migrated manifest
         run: |
+          rm -f package-lock.json
           npm install --package-lock-only
-          npm audit fix --package-lock-only
       - name: Install validated tree
         run: npm ci
       - name: Production dependency audit
