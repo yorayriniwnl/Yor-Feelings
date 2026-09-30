@@ -4,19 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "node server.js",
-    "build": "next build",
+    "build": "next build --webpack",
     "design:check": "node scripts/check-design.mjs",
     "vercel-build": "prisma generate && next build",
     "start": "NODE_ENV=production node server.js",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
     "@prisma/client": "^5.19.1",
-    "@react-three/drei": "^9.114.3",
-    "@react-three/fiber": "^8.17.10",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -24,11 +24,11 @@
     "html2canvas": "^1.4.1",
     "lenis": "^1.1.14",
     "lucide-react": "^0.446.0",
-    "next": "^14.2.20",
+    "next": "^16.3.8",
     "next-auth": "^4.24.10",
-    "nodemailer": "^7.0.13",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "nodemailer": "10.0.13",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "recharts": "^2.12.7",
     "resend": "^4.0.1",
     "socket.io": "^4.7.5",
@@ -41,8 +41,8 @@
   "devDependencies": {
     "@types/node": "^22.10.1",
     "@types/nodemailer": "^8.0.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.35",
@@ -51,5 +51,8 @@
     "puppeteer": "^24.40.0",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.6.3"
+  },
+  "overrides": {
+    "nodemailer": "$nodemailer"
   }
 }
