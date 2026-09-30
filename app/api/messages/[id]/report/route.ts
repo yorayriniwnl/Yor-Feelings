@@ -4,7 +4,8 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { reportSchema } from "@/lib/validations"
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const session = await getServerSession(authOptions)
   if (!session?.user?.email) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
@@ -19,7 +20,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
   })
 
   const report = await prisma.report.create({
-    data: { messageId: params.id, reporterId: user.id, reason: parsed.data.reason }
+    data: { messageId: id, reporterId: user.id, reason: parsed.data.reason }
   })
 
   return NextResponse.json({ report }, { status: 201 })
