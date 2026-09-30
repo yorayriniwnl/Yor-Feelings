@@ -4,7 +4,8 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 import { reactionSchema } from "@/lib/validations"
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const session = await getServerSession(authOptions)
   if (!session?.user?.email) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
@@ -19,7 +20,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
   })
 
   const reaction = await prisma.reaction.create({
-    data: { messageId: params.id, userId: user.id, type: parsed.data.type }
+    data: { messageId: id, userId: user.id, type: parsed.data.type }
   })
 
   return NextResponse.json({ reaction }, { status: 201 })
