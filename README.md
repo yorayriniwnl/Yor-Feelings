@@ -1,3 +1,13 @@
+<!-- YOR REDLINE / README COVER V1 -->
+<div align="center">
+
+![Yor-Feelings | YOR REDLINE](docs/yor-redline-cover.svg)
+
+<sub><strong>YOR / PROJECT DOSSIER</strong> · <a href="https://github.com/yorayriniwnl">GitHub</a> · <a href="https://yorayriniwnl.in">Portfolio</a></sub>
+
+</div>
+<!-- END YOR REDLINE -->
+
 # YOR FEELINGS // anonymous campus signal
 
 YOR FEELINGS is a KIIT-oriented conversation surface for anonymous onboarding, threads, reactions, reporting, mood pulse, and a local demo path. It is a portfolio-scale reference implementation: privacy, moderation, and AI claims must be independently validated before real-world use.
