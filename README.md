@@ -12,6 +12,23 @@
 
 YOR FEELINGS is a KIIT-oriented conversation surface for anonymous onboarding, threads, reactions, reporting, mood pulse, and a local demo path. It is a portfolio-scale reference implementation: privacy, moderation, and AI claims must be independently validated before real-world use.
 
+<!-- YOR REDLINE / EXPERIENCE V2 -->
+
+<a id="system-map"></a>
+## System map
+
+<div align="center"><picture><source media="(max-width: 600px)" srcset="docs/yor-redline-system-mobile.svg"/><img src="docs/yor-redline-system.svg" width="100%" alt="Anonymous campus discussion: Anonymous entry to Create discussions to Community response to Reporting and review"/></picture></div>
+
+| Project signal | Documented scope |
+| :--- | :--- |
+| **Current maturity** | REFERENCE DEMO |
+| **Technical focus** | Anonymous onboarding, conversation threads, reactions, reporting, and mood views. |
+| **Evidence boundary** | Privacy and moderation assurances need independent validation before real-world use. |
+
+**Navigate:** [Evidence contract](#evidence-contract) · [Features in the repository](#features-in-the-repository) · [Run locally](#run-locally) · [Verification](#verification) · [YOR visual system](#yor-visual-system)
+
+<!-- END YOR REDLINE / EXPERIENCE V2 -->
+
 ## Evidence contract
 
 | Surface | State | Boundary |
